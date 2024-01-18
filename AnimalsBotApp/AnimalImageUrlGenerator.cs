@@ -58,7 +58,7 @@ namespace AnimalsBotApp
                     {
                         string jsonText = GetRequest("https://api.thecatapi.com/v1/images/search");
                         dynamic json = DynamicJson.Parse(jsonText);
-                        return json.url;
+                        return json[0].url;
                     }
 
                 case 1:
