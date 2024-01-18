@@ -51,19 +51,55 @@ namespace AnimalsBotApp
         /// <returns> </returns>
         public static string Cat()
         {
-            string jsonText = GetRequest("https://api.sefinek.net/api/v2/random/animal/cat");
-            dynamic json = DynamicJson.Parse(jsonText);
-            return json.message;
+            const int count = 2;
+            switch (rnd.Next(count))
+            {
+                case 0:
+                    {
+                        string jsonText = GetRequest("https://api.thecatapi.com/v1/images/search");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        return json.url;
+                    }
+
+                case 1:
+                default:
+                    {
+                        string jsonText = GetRequest("https://api.sefinek.net/api/v2/random/animal/cat");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        return json.message;
+                    }
+            }
         }
 
         /// <summary> Dogs this instance. </summary>
         /// <returns> </returns>
         public static string Dog()
         {
-            // 候補 https://api.sefinek.net/api/v2/random/animal/dog
-            string jsonText = GetRequest("https://dog.ceo/api/breeds/image/random");
-            dynamic json = DynamicJson.Parse(jsonText);
-            return json.message;
+            const int count = 3;
+            switch (rnd.Next(count))
+            {
+                case 0:
+                    {
+                        string jsonText = GetRequest("https://api.sefinek.net/api/v2/random/animal/dog");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        return json.message;
+                    }
+
+                case 1:
+                    {
+                        string jsonText = GetRequest("https://random.dog/woof.json");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        return json.url;
+                    }
+
+                case 2:
+                default:
+                    {
+                        string jsonText = GetRequest("https://dog.ceo/api/breeds/image/random");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        return json.message;
+                    }
+            }
         }
 
         /// <summary> Ducks this instance. </summary>
