@@ -3,6 +3,7 @@ using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -51,17 +52,11 @@ namespace AnimalsBotApp
         /// <returns> </returns>
         private static IEnumerable<SlashCommandProperties> GenerateSlashCommands()
         {
-            yield return new SlashCommandBuilder().WithName("animals").WithDescription("動物コマンド").Build();
-            yield return new SlashCommandBuilder().WithName("animals_cat").WithDescription("動物コマンド 猫").Build();
-            yield return new SlashCommandBuilder().WithName("animals_dog").WithDescription("動物コマンド 犬").Build();
-            yield return new SlashCommandBuilder().WithName("animals_fox").WithDescription("動物コマンド 狐").Build();
-            yield return new SlashCommandBuilder().WithName("animals_fish").WithDescription("動物コマンド 魚").Build();
-            yield return new SlashCommandBuilder().WithName("animals_alpaca").WithDescription("動物コマンド アルパカ").Build();
-            yield return new SlashCommandBuilder().WithName("animals_bird").WithDescription("動物コマンド 鳥").Build();
-            yield return new SlashCommandBuilder().WithName("animals_bunny").WithDescription("動物コマンド ウサギ").Build();
-            yield return new SlashCommandBuilder().WithName("animals_duck").WithDescription("動物コマンド アヒル").Build();
-            yield return new SlashCommandBuilder().WithName("animals_lizard").WithDescription("動物コマンド トカゲ").Build();
-            yield return new SlashCommandBuilder().WithName("animals_shiba").WithDescription("動物コマンド 柴犬").Build();
+            yield return new SlashCommandBuilder()
+                .WithName("animals")
+                .WithDescription("動物コマンド")
+                .AddOption("mode", ApplicationCommandOptionType.String, "cat, dog, fox, fish, alpaca, bird, bunny, duck, lizard, shiba")
+                .Build();
         }
 
         /// <summary> Animalses the alpaca slash command handler. </summary>
@@ -207,6 +202,13 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
+        /// <summary> Invalids the option slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
+        {
+            await command.RespondAsync("invalid mode.");
+        }
+
         /// <summary> Called when [log]. </summary>
         /// <param name="log"> The log. </param>
         /// <returns> </returns>
@@ -240,53 +242,55 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
-            switch (command.Data.Name)
+            string mode = (command.Data.Options.FirstOrDefault()?.Value as string) ?? string.Empty;
+            switch (mode)
             {
-                case "animals":
+                case "":
                     await AnimalsSlashCommandHandler(command);
                     return;
 
-                case "animals_cat":
+                case "cat":
                     await AnimalsCatSlashCommandHandler(command);
                     return;
 
-                case "animals_dog":
+                case "dog":
                     await AnimalsDogSlashCommandHandler(command);
                     return;
 
-                case "animals_fox":
+                case "fox":
                     await AnimalsFoxSlashCommandHandler(command);
                     return;
 
-                case "animals_fish":
+                case "fish":
                     await AnimalsFishSlashCommandHandler(command);
                     return;
 
-                case "animals_alpaca":
+                case "alpaca":
                     await AnimalsAlpacaSlashCommandHandler(command);
                     return;
 
-                case "animals_bird":
+                case "bird":
                     await AnimalsBirdSlashCommandHandler(command);
                     return;
 
-                case "animals_bunny":
+                case "bunny":
                     await AnimalsBunnySlashCommandHandler(command);
                     return;
 
-                case "animals_duck":
+                case "duck":
                     await AnimalsDuckSlashCommandHandler(command);
                     return;
 
-                case "animals_lizard":
+                case "lizard":
                     await AnimalsLizardSlashCommandHandler(command);
                     return;
 
-                case "animals_shiba":
+                case "shiba":
                     await AnimalsShibaSlashCommandHandler(command);
                     return;
 
                 default:
+                    await InvalidOptionSlashCommandHandler(command);
                     return;
             }
         }
