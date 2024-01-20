@@ -38,14 +38,14 @@ namespace AnimalsBotApp
         {
             string jsonText = await GetRequestAsync("https://api.bunnies.io/v2/loop/random/?media=gif,png");
             dynamic json = DynamicJson.Parse(jsonText);
-            return json.media.poster;
+            return json.media.gif;
         }
 
         /// <summary> Cats this instance. </summary>
         /// <returns> </returns>
         public static async Task<string> Cat()
         {
-            const int count = 2;
+            const int count = 4;
             switch (rnd.Next(count))
             {
                 case 0:
@@ -64,6 +64,14 @@ namespace AnimalsBotApp
                     }
 
                 case 2:
+                    {
+                        string jsonText = await GetRequestAsync("https://cataas.com/cat/gif?json=true");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        dynamic id = json._id;
+                        return $"https://cataas.com/cat/{id}.gif";
+                    }
+
+                case 3:
                 default:
                     {
                         string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/cat");
@@ -71,16 +79,6 @@ namespace AnimalsBotApp
                         return json.message;
                     }
             }
-        }
-
-        /// <summary> Cats the GIF. </summary>
-        /// <returns> </returns>
-        public static async Task<string> CatGif()
-        {
-            string jsonText = await GetRequestAsync("https://cataas.com/cat/gif?json=true");
-            dynamic json = DynamicJson.Parse(jsonText);
-            dynamic id = json._id;
-            return $"https://cataas.com/cat/{id}.gif";
         }
 
         /// <summary> CSVs the specified tag. </summary>
@@ -133,7 +131,7 @@ namespace AnimalsBotApp
         /// <returns> </returns>
         public static async Task<string> Duck()
         {
-            string jsonText = await GetRequestAsync("https://random-d.uk/api/v1/random?type=png");
+            string jsonText = await GetRequestAsync("https://random-d.uk/api/v1/random");
             dynamic json = DynamicJson.Parse(jsonText);
             return json.url;
         }

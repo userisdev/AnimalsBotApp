@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +12,9 @@ namespace AnimalsBotApp
     /// <summary> AnimalsBot class. </summary>
     internal sealed class AnimalsBot
     {
+        /// <summary> The animals </summary>
+        private readonly string[] animals = GenerateAnimals().ToArray();
+
         /// <summary> The client </summary>
         private readonly DiscordSocketClient client;
 
@@ -42,6 +44,41 @@ namespace AnimalsBotApp
             await client.StartAsync();
 
             await Task.Delay(Timeout.Infinite);
+        }
+
+        /// <summary> Generates the animals. </summary>
+        /// <returns> </returns>
+        private static IEnumerable<string> GenerateAnimals()
+        {
+            yield return "cat";
+            yield return "dog";
+            yield return "fox";
+            yield return "fish";
+            yield return "alpaca";
+            yield return "bird";
+            yield return "bunny";
+            yield return "duck";
+            yield return "lizard";
+            yield return "shiba";
+            yield return "catgif";
+            yield return "bear";
+            yield return "polarbear";
+            yield return "panda";
+            yield return "goat";
+            yield return "giraffe";
+            yield return "elephant";
+            yield return "lion";
+            yield return "tiger";
+            yield return "cheetah";
+            yield return "whale";
+            yield return "dolphin";
+            yield return "snake";
+            yield return "penguin";
+            yield return "capybara";
+            yield return "mouse";
+            yield return "koala";
+            yield return "kangaroo";
+            yield return "raccoon";
         }
 
         /// <summary> Generates the log text. </summary>
@@ -119,14 +156,14 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
-        /// <summary> Animalses the cat GIF slash command handler. </summary>
+        /// <summary> Animalses the capybara slash command handler. </summary>
         /// <param name="command"> The command. </param>
-        private async Task AnimalsCatGifSlashCommandHandler(SocketSlashCommand command)
+        private async Task AnimalsCapybaraSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.CatGif();
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/catgif[{url}]");
+            string url = AnimalImageUrlGenerator.Csv("capybara");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/capybara[{url}]");
             Embed embed = new EmbedBuilder()
-                .WithTitle("猫GIF！")
+                .WithTitle("カピバラ！")
                 .WithImageUrl(url)
                 .Build();
 
@@ -273,6 +310,34 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
+        /// <summary> Animalses the kangaroo slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsKangarooSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = AnimalImageUrlGenerator.Csv("kangaroo");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/kangaroo[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("カンガルー！")
+                .WithImageUrl(url)
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the koala slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsKoalaSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = AnimalImageUrlGenerator.Csv("koala");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/koala[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("コアラ！")
+                .WithImageUrl(url)
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
         /// <summary> Animalses the lion slash command handler. </summary>
         /// <param name="command"> The command. </param>
         private async Task AnimalsLionSlashCommandHandler(SocketSlashCommand command)
@@ -295,6 +360,20 @@ namespace AnimalsBotApp
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/lizard[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("トカゲ！")
+                .WithImageUrl(url)
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the mouse slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsMouseSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = AnimalImageUrlGenerator.Csv("mouse");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/mouse[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("ねずみ！")
                 .WithImageUrl(url)
                 .Build();
 
@@ -337,6 +416,20 @@ namespace AnimalsBotApp
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/polarbear[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("シロクマ！")
+                .WithImageUrl(url)
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the raccoon slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsRaccoonSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = AnimalImageUrlGenerator.Csv("raccoon");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/raccoon[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("アライグマ！")
                 .WithImageUrl(url)
                 .Build();
 
@@ -399,43 +492,10 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
-        /// <summary> Invalids the option slash command handler. </summary>
+        /// <summary> Helps the option slash command handler. </summary>
         /// <param name="command"> The command. </param>
-        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
-        {
-            await command.RespondAsync("invalid mode.");
-        }
-
         private async Task HelpOptionSlashCommandHandler(SocketSlashCommand command)
         {
-            string[] animals = new[]
-            {
-                "cat",
-                "dog",
-                "fox",
-                "fish",
-                "alpaca",
-                "bird",
-                "bunny",
-                "duck",
-                "lizard",
-                "shiba",
-                "catgif",
-                "bear",
-                "polarbear",
-                "panda",
-                "goat",
-                "giraffe",
-                "elephant",
-                "lion",
-                "tiger",
-                "cheetah",
-                "whale",
-                "dolphin",
-                "snake",
-                "penguin",
-            };
-
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
             Embed embed = new EmbedBuilder()
             .WithTitle("一覧")
@@ -443,6 +503,13 @@ namespace AnimalsBotApp
                 .Build();
 
             await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Invalids the option slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
+        {
+            await command.RespondAsync("invalid mode.");
         }
 
         /// <summary> Called when [log]. </summary>
@@ -481,33 +548,6 @@ namespace AnimalsBotApp
             string mode = (command.Data.Options.FirstOrDefault()?.Value as string) ?? string.Empty;
             if (string.IsNullOrEmpty(mode))
             {
-                string[] animals = new[]
-                {
-                "cat",
-                "dog",
-                "fox",
-                "fish",
-                "alpaca",
-                "bird",
-                "bunny",
-                "duck",
-                "lizard",
-                "shiba",
-                "catgif",
-                "bear",
-                "polarbear",
-                "panda",
-                "goat",
-                "giraffe",
-                "elephant",
-                "lion",
-                "tiger",
-                "cheetah",
-                "whale",
-                "dolphin",
-                "snake",
-                "penguin",
-            };
                 int index = rnd.Next(animals.Length);
                 mode = animals[index];
             }
@@ -552,10 +592,6 @@ namespace AnimalsBotApp
 
                 case "shiba":
                     await AnimalsShibaSlashCommandHandler(command);
-                    return;
-
-                case "catgif":
-                    await AnimalsCatGifSlashCommandHandler(command);
                     return;
 
                 case "bear":
@@ -608,6 +644,26 @@ namespace AnimalsBotApp
 
                 case "penguin":
                     await AnimalsPenguinSlashCommandHandler(command);
+                    return;
+
+                case "capybara":
+                    await AnimalsCapybaraSlashCommandHandler(command);
+                    return;
+
+                case "mouse":
+                    await AnimalsMouseSlashCommandHandler(command);
+                    return;
+
+                case "koala":
+                    await AnimalsKoalaSlashCommandHandler(command);
+                    return;
+
+                case "kangaroo":
+                    await AnimalsKangarooSlashCommandHandler(command);
+                    return;
+
+                case "raccoon":
+                    await AnimalsRaccoonSlashCommandHandler(command);
                     return;
 
                 case "help":
