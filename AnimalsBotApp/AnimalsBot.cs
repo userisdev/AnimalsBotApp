@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AnimalsBotApp
 {
@@ -55,7 +56,7 @@ namespace AnimalsBotApp
             yield return new SlashCommandBuilder()
                 .WithName("animals")
                 .WithDescription("動物コマンド")
-                .AddOption("mode", ApplicationCommandOptionType.String, "cat, dog, fox, fish, alpaca, bird, bunny, duck, lizard, shiba")
+                .AddOption("mode", ApplicationCommandOptionType.String, "cat, dog, fox, fish, alpaca, bird, bunny, duck, lizard, shiba, catgif")
                 .Build();
         }
 
@@ -95,6 +96,20 @@ namespace AnimalsBotApp
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bunny[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ウサギ！")
+                .WithImageUrl(url)
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the cat GIF slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsCatGifSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = await AnimalImageUrlGenerator.CatGif();
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/catgif[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("猫GIF！")
                 .WithImageUrl(url)
                 .Build();
 
@@ -233,7 +248,7 @@ namespace AnimalsBotApp
         /// <summary> Clients the ready. </summary>
         private async Task OnReady()
         {
-            await client.SetGameAsync("サーバー", type: ActivityType.Watching);
+            await client.SetGameAsync("動物園", type: ActivityType.Watching);
 
             try
             {
@@ -298,6 +313,10 @@ namespace AnimalsBotApp
 
                 case "shiba":
                     await AnimalsShibaSlashCommandHandler(command);
+                    return;
+
+                case "catgif":
+                    await AnimalsCatGifSlashCommandHandler(command);
                     return;
 
                 default:

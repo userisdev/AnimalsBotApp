@@ -15,7 +15,7 @@ namespace AnimalsBotApp
         /// <returns> </returns>
         public static async Task<string> All()
         {
-            const int count = 10;
+            const int count = 11;
             switch (rnd.Next(count))
             {
                 case 0:
@@ -49,7 +49,7 @@ namespace AnimalsBotApp
                     return await Shiba();
 
                 case 10:
-                    return await Shiba();
+                    return await CatGif();
 
                 default:
                     return string.Empty;
@@ -98,6 +98,14 @@ namespace AnimalsBotApp
                     }
 
                 case 1:
+                    {
+                        string jsonText = await GetRequestAsync("https://cataas.com/cat?json=true");
+                        dynamic json = DynamicJson.Parse(jsonText);
+                        dynamic id = json._id;
+                        return $"https://cataas.com/cat/{id}.jpeg";
+                    }
+
+                case 2:
                 default:
                     {
                         string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/cat");
@@ -105,6 +113,17 @@ namespace AnimalsBotApp
                         return json.message;
                     }
             }
+        }
+
+        /// <summary> Cats the GIF. </summary>
+        /// <returns> </returns>
+        public static async Task<string> CatGif()
+        {
+            // https://cataas.com/
+            string jsonText = await GetRequestAsync("https://cataas.com/cat/gif?json=true");
+            dynamic json = DynamicJson.Parse(jsonText);
+            dynamic id = json._id;
+            return $"https://cataas.com/cat/{id}.gif";
         }
 
         /// <summary> Dogs this instance. </summary>
