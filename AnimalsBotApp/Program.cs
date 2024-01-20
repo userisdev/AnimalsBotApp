@@ -30,6 +30,9 @@ namespace AnimalsBotApp
             _ = Trace.Listeners.Add(new ConsoleTraceListener());
             Trace.AutoFlush = true;
 
+            string csvPath = Path.Combine(dirPath, "animals.csv");
+            AnimalImageUrlGenerator.LoadCSV(csvPath);
+
             AnimalsBot bot = new AnimalsBot(token);
             await bot.RunAsync();
             Environment.Exit(0);

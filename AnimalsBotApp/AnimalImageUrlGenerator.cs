@@ -8,53 +8,11 @@ namespace AnimalsBotApp
     /// <summary> ImageUrlGenerator class. </summary>
     internal static class AnimalImageUrlGenerator
     {
+        /// <summary> The CSV </summary>
+        private static readonly AnimalCsv csv = new AnimalCsv();
+
         /// <summary> The random. </summary>
         private static readonly Random rnd = new Random();
-
-        /// <summary> Alls this instance. </summary>
-        /// <returns> </returns>
-        public static async Task<string> All()
-        {
-            const int count = 11;
-            switch (rnd.Next(count))
-            {
-                case 0:
-                    return await Cat();
-
-                case 1:
-                    return await Dog();
-
-                case 2:
-                    return await Fox();
-
-                case 3:
-                    return await Fish();
-
-                case 4:
-                    return await Alpaca();
-
-                case 5:
-                    return await Bird();
-
-                case 6:
-                    return await Bunny();
-
-                case 7:
-                    return await Duck();
-
-                case 8:
-                    return await Lizard();
-
-                case 9:
-                    return await Shiba();
-
-                case 10:
-                    return await CatGif();
-
-                default:
-                    return string.Empty;
-            }
-        }
 
         /// <summary> Alpacas this instance. </summary>
         /// <returns> </returns>
@@ -119,11 +77,25 @@ namespace AnimalsBotApp
         /// <returns> </returns>
         public static async Task<string> CatGif()
         {
-            // https://cataas.com/
             string jsonText = await GetRequestAsync("https://cataas.com/cat/gif?json=true");
             dynamic json = DynamicJson.Parse(jsonText);
             dynamic id = json._id;
             return $"https://cataas.com/cat/{id}.gif";
+        }
+
+        /// <summary> CSVs the specified tag. </summary>
+        /// <param name="tag"> The tag. </param>
+        /// <returns> </returns>
+        public static string Csv(string tag)
+        {
+            string[] list = csv.GetUrl(tag);
+            if (list.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            int index = rnd.Next(list.Length);
+            return list[index];
         }
 
         /// <summary> Dogs this instance. </summary>
@@ -191,6 +163,13 @@ namespace AnimalsBotApp
             string jsonText = await GetRequestAsync("https://nekos.life/api/v2/img/lizard");
             dynamic json = DynamicJson.Parse(jsonText);
             return json.url;
+        }
+
+        /// <summary> Loads the CSV. </summary>
+        /// <param name="path"> The path. </param>
+        public static void LoadCSV(string path)
+        {
+            csv.Load(path);
         }
 
         /// <summary> Shibas this instance. </summary>
