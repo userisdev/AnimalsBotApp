@@ -60,7 +60,6 @@ namespace AnimalsBotApp
             yield return "duck";
             yield return "lizard";
             yield return "shiba";
-            yield return "catgif";
             yield return "bear";
             yield return "polarbear";
             yield return "panda";
@@ -546,6 +545,9 @@ namespace AnimalsBotApp
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
             string mode = (command.Data.Options.FirstOrDefault()?.Value as string) ?? string.Empty;
+
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Input/{mode}");
+
             if (string.IsNullOrEmpty(mode))
             {
                 int index = rnd.Next(animals.Length);
