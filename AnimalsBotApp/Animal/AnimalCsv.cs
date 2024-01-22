@@ -39,7 +39,7 @@ namespace AnimalsBotApp.Animal
                 map[s[0]].Add(s[1]);
             }
 
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Csv {map.Count} items.");
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Csv {map.Count} animals.");
         }
     }
 }
