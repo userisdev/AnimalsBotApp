@@ -30,6 +30,10 @@ namespace AnimalsBotApp
             _ = Trace.Listeners.Add(new ConsoleTraceListener());
             Trace.AutoFlush = true;
 
+            System.Net.Http.HttpClient httpClient = HttpClientFactory.Create();
+            string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0";
+            httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+
             string animalCsvPath = Path.Combine(dirPath, "animals.csv");
             string blackListPath = Path.Combine(dirPath, "black.txt");
             AnimalsBot bot = new AnimalsBot(token);

@@ -117,6 +117,12 @@ namespace AnimalsBotApp
         private async Task AnimalsAlpacaSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Alpaca();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/alpaca[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アルパカ！")
@@ -132,6 +138,12 @@ namespace AnimalsBotApp
         private async Task AnimalsBearSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("bear");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bear[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("クマ！")
@@ -147,6 +159,12 @@ namespace AnimalsBotApp
         private async Task AnimalsBirdSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Bird();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bird[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("鳥！")
@@ -162,6 +180,12 @@ namespace AnimalsBotApp
         private async Task AnimalsBunnySlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Bunny();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bunny[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ウサギ！")
@@ -177,6 +201,12 @@ namespace AnimalsBotApp
         private async Task AnimalsCapybaraSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("capybara");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/capybara[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("カピバラ！")
@@ -192,6 +222,12 @@ namespace AnimalsBotApp
         private async Task AnimalsCatSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Cat();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/cat[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("猫！")
@@ -207,6 +243,12 @@ namespace AnimalsBotApp
         private async Task AnimalsCheetahSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("cheetah");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/cheetah[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("チーター！")
@@ -222,6 +264,12 @@ namespace AnimalsBotApp
         private async Task AnimalsDogSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Dog();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/dog[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("犬！")
@@ -237,6 +285,12 @@ namespace AnimalsBotApp
         private async Task AnimalsDolphinSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("dolphin");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/dolphin[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("イルカ！")
@@ -252,6 +306,12 @@ namespace AnimalsBotApp
         private async Task AnimalsDuckSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Duck();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/duck[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アヒル！")
@@ -267,6 +327,12 @@ namespace AnimalsBotApp
         private async Task AnimalsElephantSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("elephant");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/elephant[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("象！")
@@ -282,6 +348,12 @@ namespace AnimalsBotApp
         private async Task AnimalsFishSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Fish();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/fish[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("魚！")
@@ -297,6 +369,12 @@ namespace AnimalsBotApp
         private async Task AnimalsFoxSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Fox();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/fox[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("狐！")
@@ -312,6 +390,12 @@ namespace AnimalsBotApp
         private async Task AnimalsGiraffeSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("giraffe");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/giraffe[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("キリン！")
@@ -327,6 +411,12 @@ namespace AnimalsBotApp
         private async Task AnimalsGoatSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("goat");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/goat[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ヤギ！")
@@ -342,6 +432,12 @@ namespace AnimalsBotApp
         private async Task AnimalsKangarooSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("kangaroo");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/kangaroo[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("カンガルー！")
@@ -357,6 +453,12 @@ namespace AnimalsBotApp
         private async Task AnimalsKoalaSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("koala");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/koala[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("コアラ！")
@@ -372,6 +474,12 @@ namespace AnimalsBotApp
         private async Task AnimalsLionSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("lion");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/lion[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ライオン！")
@@ -387,6 +495,12 @@ namespace AnimalsBotApp
         private async Task AnimalsLizardSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Lizard();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/lizard[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("トカゲ！")
@@ -402,6 +516,12 @@ namespace AnimalsBotApp
         private async Task AnimalsMouseSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("mouse");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/mouse[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ねずみ！")
@@ -417,6 +537,12 @@ namespace AnimalsBotApp
         private async Task AnimalsPandaSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("panda");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/panda[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("パンダ！")
@@ -432,6 +558,12 @@ namespace AnimalsBotApp
         private async Task AnimalsPenguinSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("penguin");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/penguin[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ペンギン！")
@@ -447,6 +579,12 @@ namespace AnimalsBotApp
         private async Task AnimalsPolarBearSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("polarbear");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/polarbear[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("シロクマ！")
@@ -462,6 +600,12 @@ namespace AnimalsBotApp
         private async Task AnimalsRaccoonSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("raccoon");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/raccoon[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アライグマ！")
@@ -477,6 +621,12 @@ namespace AnimalsBotApp
         private async Task AnimalsShibaSlashCommandHandler(SocketSlashCommand command)
         {
             string url = await animalGen.Shiba();
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/shiba[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("柴犬！")
@@ -492,6 +642,12 @@ namespace AnimalsBotApp
         private async Task AnimalsSnakeSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("snake");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/snake[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ヘビ！")
@@ -507,6 +663,12 @@ namespace AnimalsBotApp
         private async Task AnimalsTigerSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("tiger");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/tiger[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("トラ！")
@@ -522,6 +684,12 @@ namespace AnimalsBotApp
         private async Task AnimalsWhaleSlashCommandHandler(SocketSlashCommand command)
         {
             string url = animalGen.Csv("whale");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/whale[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("くじら！")

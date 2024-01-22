@@ -33,7 +33,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/alpaca");
+                    string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/alpaca");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.message;
                     if (!blackList.Contains(url))
@@ -60,7 +60,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/bird");
+                    string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/bird");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.message;
                     if (!blackList.Contains(url))
@@ -87,7 +87,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://api.bunnies.io/v2/loop/random/?media=gif,png");
+                    string jsonText = await GetRequestStringAsync("https://api.bunnies.io/v2/loop/random/?media=gif,png");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.media.gif;
                     if (!blackList.Contains(url))
@@ -191,7 +191,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://random-d.uk/api/v1/random");
+                    string jsonText = await GetRequestStringAsync("https://random-d.uk/api/v1/random");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.url;
                     if (!blackList.Contains(url))
@@ -201,7 +201,7 @@ namespace AnimalsBotApp.Animal
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex}");
+                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex.Message}");
                 }
 
                 Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Retry/{i + 1}");
@@ -218,7 +218,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/fish");
+                    string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/fish");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.message;
                     if (!blackList.Contains(url))
@@ -228,7 +228,7 @@ namespace AnimalsBotApp.Animal
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex}");
+                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex.Message}");
                 }
 
                 Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Retry/{i + 1}");
@@ -245,7 +245,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/fox");
+                    string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/fox");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.message;
                     if (!blackList.Contains(url))
@@ -255,7 +255,7 @@ namespace AnimalsBotApp.Animal
                 }
                 catch (Exception ex)
                 {
-                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex}");
+                    Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex.Message}");
                 }
 
                 Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Retry/{i + 1}");
@@ -272,7 +272,7 @@ namespace AnimalsBotApp.Animal
             {
                 try
                 {
-                    string jsonText = await GetRequestAsync("https://nekos.life/api/v2/img/lizard");
+                    string jsonText = await GetRequestStringAsync("https://nekos.life/api/v2/img/lizard");
                     dynamic json = DynamicJson.Parse(jsonText);
                     dynamic url = json.url;
                     if (!blackList.Contains(url))
@@ -322,7 +322,7 @@ namespace AnimalsBotApp.Animal
         {
             for (int i = 0; i < RetryCount; i++)
             {
-                string jsonText = await GetRequestAsync("http://shibe.online/api/shibes");
+                string jsonText = await GetRequestStringAsync("http://shibe.online/api/shibes");
                 dynamic json = DynamicJson.Parse(jsonText);
                 dynamic url = json[0];
                 if (!blackList.Contains(url))
@@ -343,14 +343,14 @@ namespace AnimalsBotApp.Animal
             {
                 case 0:
                     {
-                        string jsonText = await GetRequestAsync("https://api.thecatapi.com/v1/images/search");
+                        string jsonText = await GetRequestStringAsync("https://api.thecatapi.com/v1/images/search");
                         dynamic json = DynamicJson.Parse(jsonText);
                         return json[0].url;
                     }
 
                 case 1:
                     {
-                        string jsonText = await GetRequestAsync("https://cataas.com/cat?json=true");
+                        string jsonText = await GetRequestStringAsync("https://cataas.com/cat?json=true");
                         dynamic json = DynamicJson.Parse(jsonText);
                         dynamic id = json._id;
                         return $"https://cataas.com/cat/{id}.jpeg";
@@ -358,7 +358,7 @@ namespace AnimalsBotApp.Animal
 
                 case 2:
                     {
-                        string jsonText = await GetRequestAsync("https://cataas.com/cat/gif?json=true");
+                        string jsonText = await GetRequestStringAsync("https://cataas.com/cat/gif?json=true");
                         dynamic json = DynamicJson.Parse(jsonText);
                         dynamic id = json._id;
                         return $"https://cataas.com/cat/{id}.gif";
@@ -367,7 +367,7 @@ namespace AnimalsBotApp.Animal
                 case 3:
                 default:
                     {
-                        string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/cat");
+                        string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/cat");
                         dynamic json = DynamicJson.Parse(jsonText);
                         return json.message;
                     }
@@ -383,14 +383,14 @@ namespace AnimalsBotApp.Animal
             {
                 case 0:
                     {
-                        string jsonText = await GetRequestAsync("https://api.sefinek.net/api/v2/random/animal/dog");
+                        string jsonText = await GetRequestStringAsync("https://api.sefinek.net/api/v2/random/animal/dog");
                         dynamic json = DynamicJson.Parse(jsonText);
                         return json.message;
                     }
 
                 case 1:
                     {
-                        string jsonText = await GetRequestAsync("https://random.dog/woof.json");
+                        string jsonText = await GetRequestStringAsync("https://random.dog/woof.json");
                         dynamic json = DynamicJson.Parse(jsonText);
                         return json.url;
                     }
@@ -398,18 +398,18 @@ namespace AnimalsBotApp.Animal
                 case 2:
                 default:
                     {
-                        string jsonText = await GetRequestAsync("https://dog.ceo/api/breeds/image/random");
+                        string jsonText = await GetRequestStringAsync("https://dog.ceo/api/breeds/image/random");
                         dynamic json = DynamicJson.Parse(jsonText);
                         return json.message;
                     }
             }
         }
 
-        /// <summary> Gets the request. </summary>
+        /// <summary> Gets the request string asynchronous. </summary>
         /// <param name="url"> The endpoint. </param>
         /// <returns> </returns>
         /// <exception cref="System.Net.Http.HttpRequestException"> Failed to fetch {endpoint} </exception>
-        private static async Task<string> GetRequestAsync(string url)
+        private static async Task<string> GetRequestStringAsync(string url)
         {
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Url/{url}");
 
@@ -418,7 +418,7 @@ namespace AnimalsBotApp.Animal
 
             return response.IsSuccessStatusCode
                 ? await response.Content.ReadAsStringAsync()
-                : throw new HttpRequestException($"Failed to fetch {url}");
+                : throw new HttpRequestException($"Failed : {response.StatusCode}");
         }
     }
 }
