@@ -103,11 +103,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsAlpacaSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Alpaca();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Alpaca();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/alpaca[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アルパカ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -117,11 +118,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsBearSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("bear");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("bear");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bear[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("クマ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -131,11 +133,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsBirdSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Bird();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Bird();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bird[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("鳥！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -145,11 +148,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsBunnySlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Bunny();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Bunny();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/bunny[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ウサギ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -159,11 +163,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsCapybaraSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("capybara");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("capybara");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/capybara[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("カピバラ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -173,11 +178,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsCatSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Cat();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Cat();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/cat[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("猫！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -187,11 +193,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsCheetahSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("cheetah");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("cheetah");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/cheetah[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("チーター！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -201,11 +208,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsDogSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Dog();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Dog();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/dog[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("犬！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -215,11 +223,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsDolphinSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("dolphin");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("dolphin");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/dolphin[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("イルカ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -229,11 +238,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsDuckSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Duck();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Duck();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/duck[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アヒル！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -243,11 +253,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsElephantSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("elephant");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("elephant");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/elephant[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("象！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -257,11 +268,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsFishSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Fish();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Fish();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/fish[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("魚！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -271,11 +283,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsFoxSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Fox();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Fox();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/fox[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("狐！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -285,11 +298,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsGiraffeSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("giraffe");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("giraffe");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/giraffe[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("キリン！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -299,11 +313,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsGoatSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("goat");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("goat");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/goat[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ヤギ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -313,11 +328,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsKangarooSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("kangaroo");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("kangaroo");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/kangaroo[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("カンガルー！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -327,11 +343,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsKoalaSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("koala");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("koala");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/koala[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("コアラ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -341,11 +358,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsLionSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("lion");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("lion");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/lion[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ライオン！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -355,11 +373,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsLizardSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Lizard();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Lizard();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/lizard[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("トカゲ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -369,11 +388,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsMouseSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("mouse");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("mouse");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/mouse[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ねずみ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -383,11 +403,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsPandaSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("panda");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("panda");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/panda[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("パンダ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -397,11 +418,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsPenguinSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("penguin");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("penguin");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/penguin[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ペンギン！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -411,11 +433,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsPolarBearSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("polarbear");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("polarbear");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/polarbear[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("シロクマ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -425,11 +448,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsRaccoonSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("raccoon");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("raccoon");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/raccoon[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("アライグマ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -439,11 +463,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsShibaSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = await AnimalImageUrlGenerator.Shiba();
+            string url = await AnimalImageUrlGeneratorWithBlackList.Shiba();
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/shiba[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("柴犬！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -453,11 +478,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsSnakeSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("snake");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("snake");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/snake[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("ヘビ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -467,11 +493,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsTigerSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("tiger");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("tiger");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/tiger[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("トラ！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -481,11 +508,12 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task AnimalsWhaleSlashCommandHandler(SocketSlashCommand command)
         {
-            string url = AnimalImageUrlGenerator.Csv("whale");
+            string url = AnimalImageUrlGeneratorWithBlackList.Csv("whale");
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/whale[{url}]");
             Embed embed = new EmbedBuilder()
                 .WithTitle("くじら！")
                 .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -497,8 +525,8 @@ namespace AnimalsBotApp
         {
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
             Embed embed = new EmbedBuilder()
-            .WithTitle("一覧")
-            .WithDescription(string.Join(Environment.NewLine, animals))
+                .WithTitle("一覧")
+                .WithDescription(string.Join(Environment.NewLine, animals))
                 .Build();
 
             await command.RespondAsync(embed: embed);

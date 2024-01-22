@@ -107,6 +107,7 @@
   <ItemGroup>
     <Compile Include="AnimalCsv.cs" />
     <Compile Include="AnimalImageUrlGenerator.cs" />
+    <Compile Include="AnimalImageUrlGeneratorWithBlackList.cs" />
     <Compile Include="AnimalsBot.cs" />
     <Compile Include="DynamicJson.cs" />
     <Compile Include="Program.cs" />

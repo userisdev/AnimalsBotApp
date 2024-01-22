@@ -31,7 +31,16 @@ namespace AnimalsBotApp
             Trace.AutoFlush = true;
 
             string csvPath = Path.Combine(dirPath, "animals.csv");
-            AnimalImageUrlGenerator.LoadCSV(csvPath);
+            if (File.Exists(csvPath))
+            {
+                AnimalImageUrlGenerator.LoadCSV(csvPath);
+            }
+
+            string blackListPath = Path.Combine(dirPath, "black.txt");
+            if (File.Exists(blackListPath))
+            {
+                AnimalImageUrlGeneratorWithBlackList.LoadBlackList(blackListPath);
+            }
 
             AnimalsBot bot = new AnimalsBot(token);
             await bot.RunAsync();
