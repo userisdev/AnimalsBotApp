@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
-namespace AnimalsBotApp
+namespace AnimalsBotApp.Animal
 {
     /// <summary> AnimalCsv class. </summary>
     internal sealed class AnimalCsv

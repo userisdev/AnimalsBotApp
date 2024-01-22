@@ -105,11 +105,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnimalCsv.cs" />
-    <Compile Include="AnimalImageUrlGenerator.cs" />
-    <Compile Include="AnimalImageUrlGeneratorWithBlackList.cs" />
+    <Compile Include="Animal\AnimalCsv.cs" />
+    <Compile Include="Animal\AnimalImageUrlGenerator.cs" />
     <Compile Include="AnimalsBot.cs" />
     <Compile Include="DynamicJson.cs" />
+    <Compile Include="HttpClientFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
