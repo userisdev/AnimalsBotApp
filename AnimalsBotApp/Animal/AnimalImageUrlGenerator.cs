@@ -411,8 +411,10 @@ namespace AnimalsBotApp.Animal
         /// <exception cref="System.Net.Http.HttpRequestException"> Failed to fetch {endpoint} </exception>
         private static async Task<string> GetRequestAsync(string url)
         {
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Url/{url}");
+
             HttpClient httpClient = HttpClientFactory.Create();
-            HttpResponseMessage response = httpClient.GetAsync(url).Result;
+            HttpResponseMessage response = await httpClient.GetAsync(url);
 
             return response.IsSuccessStatusCode
                 ? await response.Content.ReadAsStringAsync()
