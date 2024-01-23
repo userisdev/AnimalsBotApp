@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,9 @@ namespace AnimalsBotApp
         /// <summary> The token </summary>
         private readonly string token;
 
+        /// <summary> The black list path </summary>
+        private string blackListPath = string.Empty;
+
         /// <summary> Initializes a new instance of the <see cref="AnimalsBot" /> class. </summary>
         /// <param name="token"> The token. </param>
         public AnimalsBot(string token)
@@ -47,6 +51,8 @@ namespace AnimalsBotApp
         public void Load(string animalCsvPaht, string blackListPath)
         {
             animalGen.LoadAnimalCSV(animalCsvPaht);
+
+            this.blackListPath = blackListPath;
             animalGen.LoadBlackList(blackListPath);
         }
 
@@ -110,6 +116,59 @@ namespace AnimalsBotApp
                 .WithDescription("動物コマンド")
                 .AddOption("mode", ApplicationCommandOptionType.String, "You can see the list in [help].")
                 .Build();
+
+            yield return new SlashCommandBuilder()
+                .WithName("animals_blacklist")
+                .WithDescription("ブラックリストコマンド")
+                .AddOption("add", ApplicationCommandOptionType.String, "add image url.")
+                .AddOption("remove", ApplicationCommandOptionType.String, "remove image url.")
+                .Build();
+        }
+
+        /// <summary> Gets the zodiac option. </summary>
+        /// <param name="options"> The options. </param>
+        /// <returns> </returns>
+        private static (string, string) GetBlackListOption(IEnumerable<SocketSlashCommandDataOption> options)
+        {
+            string add = string.Empty;
+            string remove = string.Empty;
+
+            foreach (SocketSlashCommandDataOption option in options)
+            {
+                if (option.Name == "add")
+                {
+                    add = option.Value as string;
+                }
+                else if (option.Name == "remove")
+                {
+                    remove = option.Value as string;
+                }
+            }
+
+            return (add, remove);
+        }
+
+        /// <summary> Gets the index of the black list option. </summary>
+        /// <param name="options"> The options. </param>
+        /// <returns> </returns>
+        private static (int, int) GetBlackListOptionIndex(IEnumerable<SocketSlashCommandDataOption> options)
+        {
+            int add = int.MaxValue;
+            int remove = int.MaxValue;
+
+            foreach ((SocketSlashCommandDataOption option, int i) in options.Select((e, i) => (e, i)))
+            {
+                if (option.Name == "add")
+                {
+                    add = i;
+                }
+                else if (option.Name == "remove")
+                {
+                    remove = i;
+                }
+            }
+
+            return (add, remove);
         }
 
         /// <summary> Animalses the alpaca slash command handler. </summary>
@@ -170,6 +229,87 @@ namespace AnimalsBotApp
                 .WithTitle("鳥！")
                 .WithImageUrl(url)
                 .AddField("\u200B", $"[URL]({url})")
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the black list show slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsBlackListShowSlashCommandHandler(SocketSlashCommand command)
+        {
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : BlackList/Show");
+
+            string[] blackList = File.ReadAllLines(blackListPath);
+
+            Embed embed = new EmbedBuilder()
+                .WithTitle("ブラックリスト一覧")
+                .WithDescription(string.Join(Environment.NewLine, blackList))
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the black list slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsBlackListSlashCommandHandler(SocketSlashCommand command)
+        {
+            if (string.IsNullOrWhiteSpace(blackListPath))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
+            (string add, string remove) = GetBlackListOption(command.Data.Options);
+
+            // NOTE:オプションがない場合はリスト表示
+            if (string.IsNullOrWhiteSpace(add) && string.IsNullOrWhiteSpace(remove))
+            {
+                await AnimalsBlackListShowSlashCommandHandler(command);
+                return;
+            }
+
+            List<string> blackList = File.ReadAllLines(blackListPath).ToList();
+            List<string> descpritionList = new List<string>();
+
+            (int addIndex, int removeIndex) = GetBlackListOptionIndex(command.Data.Options);
+            if (addIndex < removeIndex)
+            {
+                if (addIndex != int.MaxValue)
+                {
+                    blackList.Add(add);
+                    descpritionList.Add($"add:{add}");
+                }
+
+                if (removeIndex != int.MaxValue)
+                {
+                    _ = blackList.Remove(remove);
+                    descpritionList.Add($"remove:{remove}");
+                }
+            }
+            else
+            {
+                if (removeIndex != int.MaxValue)
+                {
+                    _ = blackList.Remove(remove);
+                    descpritionList.Add($"remove:{remove}");
+                }
+
+                if (addIndex != int.MaxValue)
+                {
+                    blackList.Add(add);
+                    descpritionList.Add($"add:{add}");
+                }
+            }
+
+            File.WriteAllLines(blackListPath, blackList.Distinct().OrderBy(e => e).ToArray());
+            animalGen.LoadBlackList(blackListPath);
+
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : BlackList/Update");
+
+            Embed embed = new EmbedBuilder()
+                .WithTitle("ブラックリスト更新")
+                .WithDescription(string.Join(Environment.NewLine, descpritionList))
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -637,121 +777,9 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
-        /// <summary> Animalses the snake slash command handler. </summary>
+        /// <summary> Animalses the slash command handler. </summary>
         /// <param name="command"> The command. </param>
-        private async Task AnimalsSnakeSlashCommandHandler(SocketSlashCommand command)
-        {
-            string url = animalGen.Csv("snake");
-            if (string.IsNullOrEmpty(url))
-            {
-                await command.RespondAsync("error.");
-                return;
-            }
-
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/snake[{url}]");
-            Embed embed = new EmbedBuilder()
-                .WithTitle("ヘビ！")
-                .WithImageUrl(url)
-                .AddField("\u200B", $"[URL]({url})")
-                .Build();
-
-            await command.RespondAsync(embed: embed);
-        }
-
-        /// <summary> Animalses the tiger slash command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task AnimalsTigerSlashCommandHandler(SocketSlashCommand command)
-        {
-            string url = animalGen.Csv("tiger");
-            if (string.IsNullOrEmpty(url))
-            {
-                await command.RespondAsync("error.");
-                return;
-            }
-
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/tiger[{url}]");
-            Embed embed = new EmbedBuilder()
-                .WithTitle("トラ！")
-                .WithImageUrl(url)
-                .AddField("\u200B", $"[URL]({url})")
-                .Build();
-
-            await command.RespondAsync(embed: embed);
-        }
-
-        /// <summary> Animalses the whale slash command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task AnimalsWhaleSlashCommandHandler(SocketSlashCommand command)
-        {
-            string url = animalGen.Csv("whale");
-            if (string.IsNullOrEmpty(url))
-            {
-                await command.RespondAsync("error.");
-                return;
-            }
-
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/whale[{url}]");
-            Embed embed = new EmbedBuilder()
-                .WithTitle("くじら！")
-                .WithImageUrl(url)
-                .AddField("\u200B", $"[URL]({url})")
-                .Build();
-
-            await command.RespondAsync(embed: embed);
-        }
-
-        /// <summary> Helps the option slash command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task HelpOptionSlashCommandHandler(SocketSlashCommand command)
-        {
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
-            Embed embed = new EmbedBuilder()
-                .WithTitle("一覧")
-                .WithDescription(string.Join(Environment.NewLine, animals))
-                .Build();
-
-            await command.RespondAsync(embed: embed);
-        }
-
-        /// <summary> Invalids the option slash command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
-        {
-            await command.RespondAsync("invalid mode.");
-        }
-
-        /// <summary> Called when [log]. </summary>
-        /// <param name="log"> The log. </param>
-        /// <returns> </returns>
-        private Task OnLog(LogMessage log)
-        {
-            string text = GenerateLogText(log);
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : {text}");
-            return Task.CompletedTask;
-        }
-
-        /// <summary> Clients the ready. </summary>
-        private async Task OnReady()
-        {
-            await client.SetGameAsync("動物園", type: ActivityType.Watching);
-
-            try
-            {
-                IEnumerable<SlashCommandProperties> commands = GenerateSlashCommands();
-                foreach (SlashCommandProperties command in commands)
-                {
-                    _ = await client.CreateGlobalApplicationCommandAsync(command);
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex}");
-            }
-        }
-
-        /// <summary> Slashes the command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task SlashCommandHandler(SocketSlashCommand command)
+        private async Task AnimalsSlashCommandHandler(SocketSlashCommand command)
         {
             string input = command.Data.Options.FirstOrDefault()?.Value as string ?? string.Empty;
             string mode = (!string.IsNullOrWhiteSpace(input) ? input : animals[rnd.Next(animals.Length)]).ToLower();
@@ -940,6 +968,137 @@ namespace AnimalsBotApp
 
                 default:
                     await InvalidOptionSlashCommandHandler(command);
+                    return;
+            }
+        }
+
+        /// <summary> Animalses the snake slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsSnakeSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = animalGen.Csv("snake");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/snake[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("ヘビ！")
+                .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the tiger slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsTigerSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = animalGen.Csv("tiger");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/tiger[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("トラ！")
+                .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the whale slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsWhaleSlashCommandHandler(SocketSlashCommand command)
+        {
+            string url = animalGen.Csv("whale");
+            if (string.IsNullOrEmpty(url))
+            {
+                await command.RespondAsync("error.");
+                return;
+            }
+
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/whale[{url}]");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("くじら！")
+                .WithImageUrl(url)
+                .AddField("\u200B", $"[URL]({url})")
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Helps the option slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task HelpOptionSlashCommandHandler(SocketSlashCommand command)
+        {
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("一覧")
+                .WithDescription(string.Join(Environment.NewLine, animals))
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Invalids the option slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
+        {
+            await command.RespondAsync("invalid mode.");
+        }
+
+        /// <summary> Called when [log]. </summary>
+        /// <param name="log"> The log. </param>
+        /// <returns> </returns>
+        private Task OnLog(LogMessage log)
+        {
+            string text = GenerateLogText(log);
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : {text}");
+            return Task.CompletedTask;
+        }
+
+        /// <summary> Clients the ready. </summary>
+        private async Task OnReady()
+        {
+            await client.SetGameAsync("動物園", type: ActivityType.Watching);
+
+            try
+            {
+                IEnumerable<SlashCommandProperties> commands = GenerateSlashCommands();
+                foreach (SlashCommandProperties command in commands)
+                {
+                    _ = await client.CreateGlobalApplicationCommandAsync(command);
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Exception/{ex}");
+            }
+        }
+
+        /// <summary> Slashes the command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task SlashCommandHandler(SocketSlashCommand command)
+        {
+            switch (command.Data.Name)
+            {
+                case "animals":
+                    await AnimalsSlashCommandHandler(command);
+                    return;
+
+                case "animals_blacklist":
+                    await AnimalsBlackListSlashCommandHandler(command);
+                    return;
+
+                default:
                     return;
             }
         }
