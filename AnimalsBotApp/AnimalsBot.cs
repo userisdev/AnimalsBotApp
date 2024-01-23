@@ -777,7 +777,7 @@ namespace AnimalsBotApp
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
             Embed embed = new EmbedBuilder()
                 .WithTitle("一覧")
-                .WithDescription(string.Join(Environment.NewLine, animals))
+                .WithDescription(string.Join(", ", animals))
                 .Build();
 
             await command.RespondAsync(embed: embed);
