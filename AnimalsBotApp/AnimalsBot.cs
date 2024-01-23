@@ -29,6 +29,9 @@ namespace AnimalsBotApp
         /// <summary> The token </summary>
         private readonly string token;
 
+        /// <summary> The animal CSV paht </summary>
+        private string animalCsvPaht = string.Empty;
+
         /// <summary> The black list path </summary>
         private string blackListPath = string.Empty;
 
@@ -50,6 +53,7 @@ namespace AnimalsBotApp
         /// <param name="blackListPath"> The black list path. </param>
         public void Load(string animalCsvPaht, string blackListPath)
         {
+            this.animalCsvPaht = animalCsvPaht;
             animalGen.LoadAnimalCSV(animalCsvPaht);
 
             this.blackListPath = blackListPath;
@@ -142,29 +146,6 @@ namespace AnimalsBotApp
                 else if (option.Name == "remove")
                 {
                     remove = option.Value as string;
-                }
-            }
-
-            return (add, remove);
-        }
-
-        /// <summary> Gets the index of the black list option. </summary>
-        /// <param name="options"> The options. </param>
-        /// <returns> </returns>
-        private static (int, int) GetBlackListOptionIndex(IEnumerable<SocketSlashCommandDataOption> options)
-        {
-            int add = int.MaxValue;
-            int remove = int.MaxValue;
-
-            foreach ((SocketSlashCommandDataOption option, int i) in options.Select((e, i) => (e, i)))
-            {
-                if (option.Name == "add")
-                {
-                    add = i;
-                }
-                else if (option.Name == "remove")
-                {
-                    remove = i;
                 }
             }
 
@@ -269,47 +250,29 @@ namespace AnimalsBotApp
                 return;
             }
 
-            List<string> blackList = File.ReadAllLines(blackListPath).ToList();
+            HashSet<string> blackList = File.ReadAllLines(blackListPath).ToHashSet();
             List<string> descpritionList = new List<string>();
 
-            (int addIndex, int removeIndex) = GetBlackListOptionIndex(command.Data.Options);
-            if (addIndex < removeIndex)
+            if (!string.IsNullOrWhiteSpace(add) && !blackList.Contains(add))
             {
-                if (addIndex != int.MaxValue)
-                {
-                    blackList.Add(add);
-                    descpritionList.Add($"add:{add}");
-                }
-
-                if (removeIndex != int.MaxValue)
-                {
-                    _ = blackList.Remove(remove);
-                    descpritionList.Add($"remove:{remove}");
-                }
-            }
-            else
-            {
-                if (removeIndex != int.MaxValue)
-                {
-                    _ = blackList.Remove(remove);
-                    descpritionList.Add($"remove:{remove}");
-                }
-
-                if (addIndex != int.MaxValue)
-                {
-                    blackList.Add(add);
-                    descpritionList.Add($"add:{add}");
-                }
+                _ = blackList.Add(add);
+                descpritionList.Add($"add:{add}");
             }
 
-            File.WriteAllLines(blackListPath, blackList.Distinct().OrderBy(e => e).ToArray());
+            if (!string.IsNullOrWhiteSpace(remove) && blackList.Contains(remove))
+            {
+                _ = blackList.Remove(remove);
+                descpritionList.Add($"remove:{remove}");
+            }
+
+            File.WriteAllLines(blackListPath, blackList.OrderBy(e => e).ToArray());
             animalGen.LoadBlackList(blackListPath);
 
             Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : BlackList/Update");
 
             Embed embed = new EmbedBuilder()
                 .WithTitle("ブラックリスト更新")
-                .WithDescription(string.Join(Environment.NewLine, descpritionList))
+                .WithDescription(descpritionList.Any() ? string.Join(Environment.NewLine, descpritionList) : "empty")
                 .Build();
 
             await command.RespondAsync(embed: embed);
@@ -567,6 +530,19 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
+        /// <summary> Helps the option slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsHelpSlashCommandHandler(SocketSlashCommand command)
+        {
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
+            Embed embed = new EmbedBuilder()
+                .WithTitle("一覧")
+                .WithDescription(string.Join(Environment.NewLine, animals))
+                .Build();
+
+            await command.RespondAsync(embed: embed);
+        }
+
         /// <summary> Animalses the kangaroo slash command handler. </summary>
         /// <param name="command"> The command. </param>
         private async Task AnimalsKangarooSlashCommandHandler(SocketSlashCommand command)
@@ -754,6 +730,16 @@ namespace AnimalsBotApp
                 .Build();
 
             await command.RespondAsync(embed: embed);
+        }
+
+        /// <summary> Animalses the reload slash command handler. </summary>
+        /// <param name="command"> The command. </param>
+        private async Task AnimalsReloadSlashCommandHandler(SocketSlashCommand command)
+        {
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/Reload");
+            animalGen.LoadAnimalCSV(animalCsvPaht);
+
+            await command.RespondAsync("reload animals.");
         }
 
         /// <summary> Animalses the shiba slash command handler. </summary>
@@ -963,11 +949,15 @@ namespace AnimalsBotApp
                     return;
 
                 case "help":
-                    await HelpOptionSlashCommandHandler(command);
+                    await AnimalsHelpSlashCommandHandler(command);
+                    return;
+
+                case "reload":
+                    await AnimalsReloadSlashCommandHandler(command);
                     return;
 
                 default:
-                    await InvalidOptionSlashCommandHandler(command);
+                    await InvalidModeSlashCommandHandler(command);
                     return;
             }
         }
@@ -1035,22 +1025,9 @@ namespace AnimalsBotApp
             await command.RespondAsync(embed: embed);
         }
 
-        /// <summary> Helps the option slash command handler. </summary>
-        /// <param name="command"> The command. </param>
-        private async Task HelpOptionSlashCommandHandler(SocketSlashCommand command)
-        {
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Animals/help");
-            Embed embed = new EmbedBuilder()
-                .WithTitle("一覧")
-                .WithDescription(string.Join(Environment.NewLine, animals))
-                .Build();
-
-            await command.RespondAsync(embed: embed);
-        }
-
         /// <summary> Invalids the option slash command handler. </summary>
         /// <param name="command"> The command. </param>
-        private async Task InvalidOptionSlashCommandHandler(SocketSlashCommand command)
+        private async Task InvalidModeSlashCommandHandler(SocketSlashCommand command)
         {
             await command.RespondAsync("invalid mode.");
         }

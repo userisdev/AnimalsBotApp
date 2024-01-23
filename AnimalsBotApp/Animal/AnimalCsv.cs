@@ -23,6 +23,7 @@ namespace AnimalsBotApp.Animal
         /// <param name="path"> The path. </param>
         public void Load(string path)
         {
+            map.Clear();
             string[] lines = File.ReadAllLines(path);
             foreach (string line in lines)
             {
