@@ -753,21 +753,14 @@ namespace AnimalsBotApp
         /// <param name="command"> The command. </param>
         private async Task SlashCommandHandler(SocketSlashCommand command)
         {
-            string mode = (command.Data.Options.FirstOrDefault()?.Value as string) ?? string.Empty;
+            string input = command.Data.Options.FirstOrDefault()?.Value as string ?? string.Empty;
+            string mode = (!string.IsNullOrWhiteSpace(input) ? input : animals[rnd.Next(animals.Length)]).ToLower();
 
-            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Input/{mode}");
-
-            if (string.IsNullOrEmpty(mode))
-            {
-                int index = rnd.Next(animals.Length);
-                mode = animals[index];
-            }
+            Trace.WriteLine($"{DateTime.Now:yyyy/MM/dd HH:mm:ss.fff} : Input/{input}, Mode/{mode}");
 
             switch (mode)
             {
                 case "cat":
-                case "CAT":
-                case "Cat":
                 case "ねこ":
                 case "ネコ":
                 case "猫":
@@ -775,8 +768,6 @@ namespace AnimalsBotApp
                     return;
 
                 case "dog":
-                case "DOG":
-                case "Dog":
                 case "いぬ":
                 case "イヌ":
                 case "犬":
@@ -784,8 +775,6 @@ namespace AnimalsBotApp
                     return;
 
                 case "fox":
-                case "FOX":
-                case "Fox":
                 case "きつね":
                 case "キツネ":
                 case "狐":
@@ -793,32 +782,22 @@ namespace AnimalsBotApp
                     return;
 
                 case "fish":
-                case "FISH":
-                case "Fish":
                 case "魚":
                     await AnimalsFishSlashCommandHandler(command);
                     return;
 
                 case "alpaca":
-                case "ALPACA":
-                case "Alpaca":
                 case "アルパカ":
                     await AnimalsAlpacaSlashCommandHandler(command);
                     return;
 
                 case "bird":
-                case "BIRD":
-                case "Bird":
                 case "鳥":
                     await AnimalsBirdSlashCommandHandler(command);
                     return;
 
                 case "bunny":
-                case "BUNNY":
-                case "Bunny":
                 case "rabbit":
-                case "RABBIT":
-                case "Rabbit":
                 case "うさぎ":
                 case "ウサギ":
                 case "兎":
@@ -826,31 +805,23 @@ namespace AnimalsBotApp
                     return;
 
                 case "duck":
-                case "DUCK":
-                case "Duck":
                 case "あひる":
                 case "アヒル":
                     await AnimalsDuckSlashCommandHandler(command);
                     return;
 
                 case "lizard":
-                case "LIZARD":
-                case "Lizard":
                 case "とかげ":
                 case "トカゲ":
                     await AnimalsLizardSlashCommandHandler(command);
                     return;
 
                 case "shiba":
-                case "SHIBA":
-                case "Shiba":
                 case "柴犬":
                     await AnimalsShibaSlashCommandHandler(command);
                     return;
 
                 case "bear":
-                case "BEAR":
-                case "Bear":
                 case "くま":
                 case "クマ":
                 case "熊":
@@ -858,8 +829,6 @@ namespace AnimalsBotApp
                     return;
 
                 case "polarbear":
-                case "POLARBEAR":
-                case "PolarBear":
                 case "しろくま":
                 case "シロクマ":
                 case "ホッキョクグマ":
@@ -867,16 +836,12 @@ namespace AnimalsBotApp
                     return;
 
                 case "panda":
-                case "PANDA":
-                case "Panda":
                 case "パンダ":
                 case "熊猫":
                     await AnimalsPandaSlashCommandHandler(command);
                     return;
 
                 case "goat":
-                case "GOAT":
-                case "Goat":
                 case "やぎ":
                 case "ヤギ":
                 case "山羊":
@@ -884,15 +849,11 @@ namespace AnimalsBotApp
                     return;
 
                 case "giraffe":
-                case "GIRAFFE":
-                case "Giraffe":
                 case "キリン":
                     await AnimalsGiraffeSlashCommandHandler(command);
                     return;
 
                 case "elephant":
-                case "ELEPHANT":
-                case "Elephant":
                 case "ぞう":
                 case "ゾウ":
                 case "象":
@@ -900,16 +861,13 @@ namespace AnimalsBotApp
                     return;
 
                 case "lion":
-                case "LION":
-                case "Lion":
+                case "leo":
                 case "ライオン":
                 case "獅子":
                     await AnimalsLionSlashCommandHandler(command);
                     return;
 
                 case "tiger":
-                case "TIGER":
-                case "Tiger":
                 case "とら":
                 case "トラ":
                 case "虎":
@@ -917,15 +875,11 @@ namespace AnimalsBotApp
                     return;
 
                 case "cheetah":
-                case "CHEETAH":
-                case "Cheetah":
                 case "チーター":
                     await AnimalsCheetahSlashCommandHandler(command);
                     return;
 
                 case "whale":
-                case "WHALE":
-                case "Whale":
                 case "くじら":
                 case "クジラ":
                 case "鯨":
@@ -933,15 +887,12 @@ namespace AnimalsBotApp
                     return;
 
                 case "dolphin":
-                case "DOLPHIN":
-                case "Dolphin":
+                case "いるか":
                 case "イルカ":
                     await AnimalsDolphinSlashCommandHandler(command);
                     return;
 
                 case "snake":
-                case "SNAKE":
-                case "Snake":
                 case "へび":
                 case "ヘビ":
                 case "蛇":
@@ -949,25 +900,19 @@ namespace AnimalsBotApp
                     return;
 
                 case "penguin":
-                case "PENGUIN":
-                case "Penguin":
+                case "ぺんぎん":
                 case "ペンギン":
                     await AnimalsPenguinSlashCommandHandler(command);
                     return;
 
                 case "capybara":
-                case "CAPYBARA":
-                case "Capybara":
+                case "かぴばら":
                 case "カピバラ":
                     await AnimalsCapybaraSlashCommandHandler(command);
                     return;
 
                 case "mouse":
-                case "MOUSE":
-                case "Mouse":
                 case "rat":
-                case "RAT":
-                case "Rat":
                 case "ねずみ":
                 case "ネズミ":
                 case "鼠":
@@ -975,22 +920,16 @@ namespace AnimalsBotApp
                     return;
 
                 case "koala":
-                case "KOALA":
-                case "Koala":
                 case "コアラ":
                     await AnimalsKoalaSlashCommandHandler(command);
                     return;
 
                 case "kangaroo":
-                case "KANGAROO":
-                case "Kangaroo":
                 case "カンガルー":
                     await AnimalsKangarooSlashCommandHandler(command);
                     return;
 
                 case "raccoon":
-                case "RACCOON":
-                case "Raccoon":
                 case "アライグマ":
                     await AnimalsRaccoonSlashCommandHandler(command);
                     return;
